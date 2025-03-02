@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files for Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment directories for Python
+venv/
+ENV/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Flask instance folder and logs
+instance/
+*.log
+
+# Editor directories and project files
+.vscode/
+.idea/
+
+# Node.js dependencies and build artifacts in the frontend directory
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.cache/
+
+# Environment variables file (if any)
+.env
