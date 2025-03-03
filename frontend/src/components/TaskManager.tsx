@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { fetchTasks, addTask, updateTask, Task } from "../api";
+import TaskItem from "./TaskItem";
 import "./TaskManager.css";
 
 const TaskManager: React.FC = () => {
@@ -13,6 +14,7 @@ const TaskManager: React.FC = () => {
       .catch((error) => console.error("Error fetching tasks:", error));
   }, []);
 
+  // Add a new task.
   const handleAddTask = async () => {
     if (newTaskTitle.trim() === "") return;
     try {
@@ -24,7 +26,9 @@ const TaskManager: React.FC = () => {
     }
   };
 
-  const handleToggleTask = async (task: Task) => {
+  // Toggle a task's completed state.
+  // Wrapped in useCallback to avoid re-creating the function on every render.
+  const handleToggleTask = useCallback(async (task: Task) => {
     try {
       const updatedTask = await updateTask(task.id, !task.completed);
       setTasks((prevTasks) =>
@@ -33,12 +37,12 @@ const TaskManager: React.FC = () => {
     } catch (error) {
       console.error("Error updating task:", error);
     }
-  };
+  }, []);
 
   return (
     <div className="task-container">
-      <h1 className="header">Task Manager</h1>
-      {/* Add Task Elements */}
+      <h1>Task Manager</h1>
+      {/* Add Task Section */}
       <div className="add-task-container">
         <input
           type="text"
@@ -54,17 +58,7 @@ const TaskManager: React.FC = () => {
       {/* Task List */}
       <ul className="task-list">
         {tasks.map((task) => (
-          <li key={task.id} className="task-item">
-            <label>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => handleToggleTask(task)}
-                className="checkbox"
-              />
-              <span>{task.title}</span>
-            </label>
-          </li>
+          <TaskItem key={task.id} task={task} onToggle={handleToggleTask} />
         ))}
       </ul>
     </div>
