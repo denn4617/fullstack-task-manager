@@ -14,6 +14,23 @@ class TaskManagerTestCase(unittest.TestCase):
             {"id": 2, "title": "Test Task 2", "completed": True},
         ]
 
+    def test_login_valid_credentials(self):
+        # Test with valid credentials.
+        credentials = {"username": "admin", "password": "secret"}
+        response = self.app.post("/login", json=credentials)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.data)
+        self.assertIn("token", data)
+        self.assertEqual(data["username"], "admin")
+
+    def test_login_invalid_credentials(self):
+        # Test with invalid credentials.
+        credentials = {"username": "admin", "password": "wrongpassword"}
+        response = self.app.post("/login", json=credentials)
+        self.assertEqual(response.status_code, 401)
+        data = json.loads(response.data)
+        self.assertIn("error", data)
+
     def test_get_tasks(self):
         response = self.app.get("/tasks")
         self.assertEqual(response.status_code, 200)
