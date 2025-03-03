@@ -8,20 +8,26 @@ This project is a full-stack task manager application that showcases a web appli
 fullstack-task-manager/
 ├── README.md
 ├── backend/
-│   ├── app.py             # Flask API implementation.
-│   ├── requirements.txt   # Python dependencies.
+│   ├── app.py                # Flask API with tasks and login endpoints.
+│   ├── requirements.txt      # Python dependencies.
 │   └── tests/
-│       └── test_app.py    # Unit tests for the Flask API.
+│       └── test_app.py       # Unit tests for the API.
 └── frontend/
-    ├── package.json       # Node dependencies and scripts.
-    ├── tsconfig.json      # TypeScript configuration.
+    ├── package.json          # Node dependencies and scripts.
+    ├── tsconfig.json         # TypeScript configuration.
     ├── public/
-    │   └── index.html     # Main HTML file.
+    │   └── index.html        # Main HTML file.
     └── src/
-        ├── App.tsx        # Main React component.
-        ├── App.css        # Main styling.
-        ├── index.tsx      # React entry point.
-        └── api.ts         # Module for interacting with the Flask API.
+        ├── App.tsx           # Main container with routing.
+        ├── index.tsx         # React entry point.
+        ├── api.ts            # API module for backend interactions.
+        └── components/
+            ├── Login.tsx     # Login page component.
+            ├── Login.css     # Styling for login page.
+            ├── TaskItem.tsx  # Task item component.
+            ├── TaskManager.tsx  # Task manager component.
+            └── TaskManager.css  # Styling for the TaskManager.
+
 ```
 
 ## How to Run
@@ -36,7 +42,7 @@ cd backend
 
 2. Create and activate the virtual environment:
 
-**Linux/masOS:**
+**Linux/macOS:**
 
 ```bash
 python -m venv venv
