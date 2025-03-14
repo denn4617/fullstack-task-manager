@@ -6,28 +6,40 @@ This project is a full-stack task manager application that showcases a web appli
 
 ```bash
 fullstack-task-manager/
-├── README.md
 ├── backend/
-│   ├── app.py                # Flask API with tasks and login endpoints.
-│   ├── requirements.txt      # Python dependencies.
+│   ├── app.py                  # Flask API
+│   ├── requirements.txt        # Python dependencies.
 │   └── tests/
-│       └── test_app.py       # Unit tests for the API.
+│       └── test_app.py         # Unit tests for the API.
 └── frontend/
-    ├── package.json          # Node dependencies and scripts.
-    ├── tsconfig.json         # TypeScript configuration.
+    ├── package.json
+    ├── tsconfig.json
     ├── public/
-    │   └── index.html        # Main HTML file.
+    │   └── index.html          # Main HTML file.
     └── src/
-        ├── App.tsx           # Main container with routing.
-        ├── index.tsx         # React entry point.
-        ├── api.ts            # API module for backend interactions.
-        └── components/
-            ├── Login.tsx     # Login page component.
-            ├── Login.css     # Styling for login page.
-            ├── TaskItem.tsx  # Task item component.
-            ├── TaskManager.tsx  # Task manager component.
-            └── TaskManager.css  # Styling for the TaskManager.
-
+        ├── api/                # API modules for backend interactions.
+        │   ├── authApi.ts
+        │   └── tasksApi.ts
+        ├── components/
+        │   ├── NavBar/
+        │   │   ├── NavBar.tsx
+        │   │   └── NavBar.module.css
+        │   ├── TaskChart/
+        │   │   ├── TaskChart.tsx
+        │   │   └── TaskChart.module.css
+        │   └── TaskList/
+        │       ├── TaskList.tsx
+        │       └── TaskList.module.css
+        ├── pages/
+        │   ├── Login/          # Login page
+        │   │   ├── Login.tsx
+        │   │   └── Login.module.css
+        │   └── TaskManager/    # TaskManager page
+        │       ├── TaskManager.tsx
+        │       └── TaskManager.module.css
+        ├── App.tsx             # Main container with routing.
+        ├── index.tsx           # React entry point.
+        └── global.css          # Global styles
 ```
 
 ## How to Run
