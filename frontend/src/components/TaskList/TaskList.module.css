@@ -1,0 +1,24 @@
+.addTaskContainer {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .taskList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .taskItem {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .taskTitle {
+    flex: 1;
+  }
+  

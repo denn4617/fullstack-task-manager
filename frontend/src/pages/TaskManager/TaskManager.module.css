@@ -1,61 +1,22 @@
-/* App.css */
+.taskManagerContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
-  .task-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .add-task-container {
-    display: flex;
-    margin-bottom: 20px;
-  }
-  
-  .add-task-input {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-  }
-  
-  .add-task-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    background-color: #28a745;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 0 4px 4px 0;
-  }
-  
-  .task-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .task-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .task-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .checkbox {
-    width: 18px;
-    height: 18px;
-  }
-  
+/* The NavBar is at the top, then we have mainContent below */
+.mainContent {
+  flex: 1;
+  display: flex;
+}
+
+.taskListPanel {
+  flex: 3;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+}
+
+.statsPanel {
+  flex: 2;
+  padding: 20px;
+}
