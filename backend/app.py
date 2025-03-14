@@ -1,6 +1,6 @@
 """
 app.py - Flask API for the Task Manager
-This API manages tasks and provides a login endpoint.
+
 """
 
 from flask import Flask, jsonify, request
@@ -8,19 +8,54 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
-# In-memory storage for tasks (each task is a dictionary)
-tasks = [
-    {"id": 1, "title": "Learn Flask", "completed": False},
-    {"id": 2, "title": "Build a React App", "completed": False},
+# In-memory store of users
+users = [
+    {
+        "username": "admin",
+        "password_hash": generate_password_hash("secret"),
+        "name": "Dennis Kilic",
+        "profilePic": "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"
+    }
 ]
 
-# Hardcoded user with a hashed password for demonstration.
-USER = {
-    "username": "admin",
-    "password_hash": generate_password_hash("secret")
-}
+# In-memory store of tasks
+tasks = [
+    {"id": 1, "title": "Study", "status": "in progress"},
+    {"id": 2, "title": "Do the Dishes", "status": "open"},
+    {"id": 3, "title": "Exercise", "status": "completed"},
+]
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    """
+    POST /signup
+    Expects JSON: { "username": ..., "password": ..., "name": ... }
+    Returns: { "message": "User created" } or error
+    """
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    name = data.get("name")
+
+    if not username or not password or not name:
+        return jsonify({"error": "Missing fields"}), 400
+
+    # Check if username already exists
+    for u in users:
+        if u["username"] == username:
+            return jsonify({"error": "Username already taken"}), 400
+
+    new_user = {
+        "username": username,
+        "password": password,
+        "name": name,
+        "profilePic": "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"
+    }
+    users.append(new_user)
+    return jsonify({"message": "User created"}), 201
 
 
 @app.route("/login", methods=["POST"])
@@ -28,16 +63,28 @@ def login():
     """
     POST /login
     Expects JSON with "username" and "password".
-    Returns a dummy token and username if credentials are valid.
+    Returns a dummy token and user info if credentials are valid.
     """
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
 
-    # Check username and hashed password.
-    if username == USER["username"] and check_password_hash(USER["password_hash"], password):
-        return jsonify({"token": "dummy-token", "username": username}), 200
-    return jsonify({"error": "Invalid credentials"}), 401
+    found_user = None
+    for u in users:
+        if u["username"] == username and check_password_hash(u["password_hash"], password):
+            found_user = u
+            break
+
+    if found_user:
+        return jsonify({
+            "token": "dummy-token",
+            "user": {
+                "name": found_user["name"],
+                "profilePic": found_user["profilePic"]
+            }
+        }), 200
+    else:
+        return jsonify({"error": "Invalid credentials"}), 401
 
 
 @app.route("/tasks", methods=["GET"])
@@ -53,15 +100,20 @@ def add_task():
     Expected JSON format:
     {
         "title": "Task title",
-        "completed": false  # Optional (defaults to false).
+        "status": "open"|"in progress"|"completed"
     }
     """
-    new_task = request.get_json()
-    if "title" not in new_task:
+    data = request.get_json()
+    if "title" not in data:
         return jsonify({"error": "Task title is required"}), 400
 
-    new_task["id"] = tasks[-1]["id"] + 1 if tasks else 1
-    new_task.setdefault("completed", False)
+    new_id = tasks[-1]["id"] + 1 if tasks else 1
+    status = data.setdefault("status", "open")
+    new_task = {
+        "id": new_id,
+        "title": data["title"],
+        "status": status
+    }
     tasks.append(new_task)
     return jsonify(new_task), 201
 
@@ -69,18 +121,15 @@ def add_task():
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
     """
-    PUT /tasks/<task_id>: Update the 'completed' status of a task.
-    Expected JSON format:
-    {
-        "completed": true/false
-    }
+    PUT /tasks/<task_id>
+    JSON: { "title": ..., "status": "open"|"in progress"|"completed" }
     """
-    update_data = request.get_json()
-    for task in tasks:
-        if task["id"] == task_id:
-            if "completed" in update_data:
-                task["completed"] = update_data["completed"]
-            return jsonify(task), 200
+    data = request.get_json()
+    for t in tasks:
+        if t["id"] == task_id:
+            if "status" in data:
+                t["status"] = data["status"]
+            return jsonify(t), 200
     return jsonify({"error": "Task not found"}), 404
 
 
