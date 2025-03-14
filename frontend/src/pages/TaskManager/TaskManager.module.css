@@ -1,0 +1,22 @@
+.taskManagerContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* The NavBar is at the top, then we have mainContent below */
+.mainContent {
+  flex: 1;
+  display: flex;
+}
+
+.taskListPanel {
+  flex: 3;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+}
+
+.statsPanel {
+  flex: 2;
+  padding: 20px;
+}

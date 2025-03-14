@@ -1,0 +1,6 @@
+/* global.css - global resets or base styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+  }  
