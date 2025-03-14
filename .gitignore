@@ -30,3 +30,5 @@ frontend/.cache/
 
 # Environment variables file (if any)
 .env
+
+todo.txt
