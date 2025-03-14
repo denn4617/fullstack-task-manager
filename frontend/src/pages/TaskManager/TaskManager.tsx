@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { fetchTasks, addTask, updateTask, Task } from "../api";
-import TaskItem from "./TaskItem";
+import { fetchTasks, addTask, updateTask, Task } from "../../api/api";
+import TaskItem from "../../components/TaskItem";
 import "./TaskManager.css";
 
 const TaskManager: React.FC = () => {
